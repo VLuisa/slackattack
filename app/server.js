@@ -108,11 +108,11 @@ controller.hears('testy', ['direct_message', 'direct_mention', 'mention'], (bot,
       {
         'fallback': 'To be useful, I need you to invite me in a channel.',
         'title': 'How can I help you?',
-        'text': 'To be useful, I need you to invite me in a channel ',
-        'color': '#7CD197',
+        'text': 'This is my favorite color, and my favorite color-picker website: http://htmlcolorcodes.com/color-picker/',
+        'color': '#ff7575',
       },
     ],
-    'icon_url': 'http://lorempixel.com/48/48',
+    'icon_url': 'https://color.adobe.com/build2.0.0-buildNo/resource/img/kuler/color_wheel_730.png',
   };
 
   bot.reply(message, attachment);
