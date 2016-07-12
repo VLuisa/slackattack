@@ -1,3 +1,5 @@
+// Got help from Jessie Anderson
+
 // Request API access: http://www.yelp.com/developers/getting_started/api_access
 const Yelp = require('yelp');
 
@@ -94,30 +96,6 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
       convo.next();
     });
   }
-  // Adapted from https://github.com/olalonde/node-yelp
-  // See http://www.yelp.com/developers/documentation/v2/search_api
-//   function searchYelp(food, location, convo) {
-//     yelp.search({ term: `${food.text}`, location: `${location.text}`, limit: 2, sort: 2 }) // sort by highest rating, limit 3 searches
-//     // yelp.search({ term: 'pizza', location: 'Chicago', limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
-//
-//     .then((data) => {
-//       if (data.businesses.length > 1) {
-//         data.businesses.forEach(business => {
-//           convo.say(business.name);
-//           convo.next();
-//         });
-//       } else {
-//         convo.say('I couldn\'t find any results sorry');
-//       }
-//     })
-//     .catch((err) => {
-//       convo.say('Hmm that didn\'t work forEach some reason');
-//       convo.next();
-//       console.error(err);
-//     });
-//   }
-//   bot.startConversation(message, askIfHungry);
-// });
 
 // Using attachments
 // ATTACHMENT source: https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js
