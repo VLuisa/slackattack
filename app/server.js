@@ -25,72 +25,6 @@ const slackbot = controller.spawn({
   if (err) { throw new Error(err); }
 });
 
-controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
-  function askIfHungry(response, convo) {
-    convo.ask('Are you hungry?', [
-      {
-        pattern: bot.utterances.yes,
-        callback: () => {
-          convo.say('I can help with that!');
-          askFoodType(response, convo);
-          convo.next();
-        },
-      },
-      {
-        pattern: bot.utterances.no,
-        callback: () => {
-          convo.say('Ok maybe later then.');
-          convo.next();
-        },
-      },
-      {
-        default: true,
-        callback: () => {
-          convo.repeat();
-          convo.next();
-        },
-      },
-    ]);
-  }
-
-  function askFoodType(response, convo) {
-    convo.ask('What type of food are you in the mood for?', (food) => {
-      convo.say('Okay');
-      askLocation(food, convo);
-      convo.next();
-    });
-  }
-
-  function askLocation(food, convo) {
-    convo.ask('Where are you?', (location) => {
-      convo.say(`So you want ${food.text} near ${location.text}`);
-      searchYelp(food, location, convo);
-      convo.next();
-    });
-  }
-
-  // Adapted from https://github.com/olalonde/node-yelp
-  // See http://www.yelp.com/developers/documentation/v2/search_api
-  function searchYelp(food, place, convo) {
-    yelp.search({ term: food, location: place, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
-    .then((data) => {
-      // if (data.businesses.length > 1) {
-      //
-      // }
-      data.businesses.forEach(business => {
-        console.log(business.name);
-        convo.say(business.name);
-        // convo.say(business.rating);
-        convo.next();
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  }
-  bot.startConversation(message, askIfHungry);
-});
-
 // prepare webhook
 // for now we won't use this but feel free to look up slack webhooks
 controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
@@ -98,6 +32,71 @@ controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
     if (err) { throw new Error(err); }
   });
 });
+
+// controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+//   function askIfHungry(response, convo) {
+//     convo.ask('Are you hungry?', [
+//       {
+//         pattern: bot.utterances.yes,
+//         callback: () => {
+//           convo.say('I can help with that!');
+//           askFoodType(response, convo);
+//           convo.next();
+//         },
+//       },
+//       {
+//         pattern: bot.utterances.no,
+//         callback: () => {
+//           convo.say('Ok maybe later then.');
+//           convo.next();
+//         },
+//       },
+//       {
+//         default: true,
+//         callback: () => {
+//           convo.repeat();
+//           convo.next();
+//         },
+//       },
+//     ]);
+//   }
+//
+//   function askFoodType(response, convo) {
+//     convo.ask('What type of food are you in the mood for?', (food) => {
+//       convo.say('Okay');
+//       askLocation(food, convo);
+//       convo.next();
+//     });
+//   }
+//
+//   function askLocation(food, convo) {
+//     convo.ask('Where are you?', (location) => {
+//       convo.say(`So you want ${food.text} near ${location.text}`);
+//       searchYelp(food, location, convo);
+//       convo.next();
+//     });
+//   }
+//   // Adapted from https://github.com/olalonde/node-yelp
+//   // See http://www.yelp.com/developers/documentation/v2/search_api
+//   function searchYelp(food, place, convo) {
+//     yelp.search({ term: food, location: place, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
+//     .then((data) => {
+//       // if (data.businesses.length > 1) {
+//       //
+//       // }
+//       data.businesses.forEach(business => {
+//         console.log(business.name);
+//         convo.say(business.name);
+//         // convo.say(business.rating);
+//         convo.next();
+//       });
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//     });
+//   }
+//   bot.startConversation(message, askIfHungry);
+// });
 
 
 // to wake up luisa-bot
