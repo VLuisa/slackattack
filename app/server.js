@@ -78,8 +78,8 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
   }
   // Adapted from https://github.com/olalonde/node-yelp
   // See http://www.yelp.com/developers/documentation/v2/search_api
-  function searchYelp(food, place, convo) {
-    yelp.search({ term: `${food.text}`, location: `${place.text}`, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
+  function searchYelp(food, location, convo) {
+    yelp.search({ term: `${food.text}`, location: `${location.text}`, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
     .then((data) => {
       // if (data.businesses.length > 1) {
       //
@@ -88,8 +88,8 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
         console.log(business.name);
         convo.say(business.name);
         // convo.say(business.rating);
-        convo.next();
       });
+      convo.next();
     })
     .catch((err) => {
       console.error(err);
