@@ -93,6 +93,8 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
       }
     })
     .catch((err) => {
+      convo.say('Hmm that didn\'t work some reason');
+      convo.next();
       console.error(err);
     });
   }
@@ -134,16 +136,6 @@ controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 
   });
 });
 
-// // Ask about art and explore
-// controller.hears(['art', 'explore', 'discover'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
-//   bot.startConversation(message,function(err,convo) {
-//     convo.say('Would you like to explore some art? I have some suggestions for great websites if you\'re interested')
-//     convo.ask('Want the suggestions? Say yes or no or ask me to show you my favorite art', function(response,convo) {
-//       convo.say('')
-//     });
-//   })
-// });
-
 // Ask about art and explore
 // Adapted from: https://github.com/howdyai/botkit
 controller.hears(['art', 'explore', 'discover'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
@@ -161,7 +153,8 @@ controller.hears(['art', 'explore', 'discover'], ['direct_message', 'direct_ment
       {
         pattern: bot.utterances.yes,
         callback: () => {
-          convo.say('This isn\'t classic art or master works but a great place for people to share what they\'re working on these days: https://www.behance.net/ or https://dribbble.com/');
+          convo.say('This isn\'t classic art or master works but a great place for people to share what they\'re working on these days: https://www.behance.net/');
+          convo.say('or https://dribbble.com/');
           convo.next();
         },
       },
