@@ -302,7 +302,7 @@ Don't forget to make your bot able to respond to any messaged directed at it wit
 
 Ok the last step is to deploy your bot to Heroku!
 
-1. 🐻Head over to [Heroku](https://www.heroku.com/) and login/sign up. Then, make a new app. Head over to "Settings" and add a Config Variable `SLACK_BOT_TOKEN` with value set to the API token of the Slack bot you made in step 1. You probably also need to add all your YELP keys, and any other API's you used.
+1. 🐻Head over to [Heroku](https://www.heroku.com/) and login/sign up. Then, make a new app. In the "Deploy" tab, set the deployment method to **Github** and connect to the repo you made. Head over to "Settings" and add a Config Variable `SLACK_BOT_TOKEN` with value set to the API token of the Slack bot you made in step 1. You probably also need to add all your YELP keys, and any other API's you used.
 
 1. Follow the steps under "Deploy Using Heroku Git".
 
@@ -313,7 +313,7 @@ Ok the last step is to deploy your bot to Heroku!
 
 Heroku dynos will typically sleep after some period of time. Your bot will not wake up automatically based on the slack RTM because that is a queue that it is your bots responsibility to check.
 
-There are ways around this, but a workaround for now would be to add an an [Outgoing Webhook](https://api.slack.com/outgoing-webhooks) that would wake up your bot.  Invite your bot to the **#bots** channel on slack and have the bot wake up on an outgoing webhook that mentions their name or another string.  Outgoing webhooks are configured as separate Slack integrations and require your bot to both have a public url (such as you would get when deploying on Heroku), and also have specific strings that trigger the outgoing webhook.  I have mine wake up on "jackjack wake up!" and send back a giphy to prove it.
+There are ways around this, but a workaround for now would be to add an an [Outgoing Webhook](https://api.slack.com/outgoing-webhooks) that would wake up your bot.  Invite your bot to the **#bots** channel on slack and have the bot wake up on an outgoing webhook that mentions their name.  I have mine wake up on "jackjack wake up!" and send back a giphy to prove it.
 
 ```javascript
 controller.on('outgoing_webhook', (bot, message) => {
@@ -343,4 +343,3 @@ controller.on('outgoing_webhook', (bot, message) => {
 * Driving directions?
 * [MongoDB Botkit Storage](https://github.com/howdyai/botkit-storage-mongo) setup on Heroku.
 * have your bot talk with another bot in #bot (requires collaboration but only on discussing how the bot conversation would go — this is still an individual assignment).  For instance, if I ask your bot for a recipe (in a DM), your bot could then use #bot to ask another bot for a suggested recipe and then return the results in the DM. This might be tricky to get right, document your "bot2bot chat api" and submit that in addition to screenshots showing the functionality.
-* play with es6 promises
