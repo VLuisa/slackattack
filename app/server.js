@@ -85,9 +85,9 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
     .then((data) => {
       if (data.businesses.length > 1) {
         data.businesses.forEach(business => {
-          convo.say(business.name.text);
+          convo.say(business.name);
         });
-        // convo.next();
+        convo.next();
       } else {
         convo.say('I couldn\'t find any results sorry');
       }
