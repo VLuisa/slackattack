@@ -81,15 +81,16 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
   function searchYelp(food, location, convo) {
     yelp.search({ term: `${food.text}`, location: `${location.text}`, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
     .then((data) => {
-      // if (data.businesses.length > 1) {
-      //
-      // }
-      data.businesses.forEach(business => {
-        console.log(business.name);
-        convo.say(business.name);
-        // convo.say(business.rating);
-      });
-      convo.next();
+      if (data.businesses.length > 1) {
+        data.businesses.forEach(business => {
+          console.log(business.name);
+          convo.say(business.name);
+          // convo.say(business.rating);
+        });
+        convo.next();
+      } else {
+        convo.say('I couldn\'t find any results sorry');
+      }
     })
     .catch((err) => {
       console.error(err);
