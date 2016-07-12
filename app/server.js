@@ -119,21 +119,21 @@ controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 
 // ATTACHMENT: https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js
 
 
-// // Conversation for Yelp API Conversation
-// // Used https://github.com/howdyai/botkit/blob/master/readme.md#multi-message-replies-to-incoming-messages as a resource
-// controller.hears(['hungry', 'food', 'lunch', 'dinner', 'breakfast'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
-//   bot.startConversation(message, (err, convo) => {
-//     convo.ask('Oh are you hungry? What kind of food would you like?', (response, convo) => {
-//     // convo.say('Ok I\'ll search yelp for: ' + response.text);
-//       const yelpResult = searchYelp(response.text, convo);
-//       const yelpResponse = `Here's what I found: ${yelpResult}`;
-//       convo.say('test');
-//       convo.say(yelpResponse);
-//     // convo.say('Here\'s what I found' + yelp.search({ term: response.text, location: 'Chicago' }));
-//       // convo.next();
-//     });
-//   });
-// });
+// Conversation for Yelp API Conversation
+// Used https://github.com/howdyai/botkit/blob/master/readme.md#multi-message-replies-to-incoming-messages as a resource
+controller.hears(['hungry', 'food', 'lunch', 'dinner', 'breakfast'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
+  bot.startConversation(message, (err, convo) => {
+    convo.ask('Oh are you hungry? What kind of food would you like?', (response, convo) => {
+    // convo.say('Ok I\'ll search yelp for: ' + response.text);
+      const yelpResult = searchYelp(response.text, convo);
+      const yelpResponse = `Here's what I found: ${yelpResult}`;
+      convo.say('test');
+      convo.say(yelpResponse);
+    // convo.say('Here\'s what I found' + yelp.search({ term: response.text, location: 'Chicago' }));
+      // convo.next();
+    });
+  });
+});
 
 // Lists what the robot can do
 controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
