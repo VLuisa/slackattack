@@ -99,6 +99,25 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
   bot.startConversation(message, askIfHungry);
 });
 
+// Using attachments
+controller.hears('another_keyword', 'direct_message,direct_mention', (bot, message) => {
+  const attachment = {
+    'username': 'My bot',
+    'text': 'This is a pre-text',
+    'attachments': [
+      {
+        'fallback': 'To be useful, I need you to invite me in a channel.',
+        'title': 'How can I help you?',
+        'text': 'To be useful, I need you to invite me in a channel ',
+        'color': '#7CD197',
+      },
+    ],
+    'icon_url': 'http://lorempixel.com/48/48',
+  };
+
+  bot.reply(message, attachment);
+});
+
 
 // to wake up luisa-bot
 controller.on('outgoing_webhook', (bot, message) => {
