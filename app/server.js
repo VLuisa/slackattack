@@ -33,70 +33,70 @@ controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
   });
 });
 
-// controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
-//   function askIfHungry(response, convo) {
-//     convo.ask('Are you hungry?', [
-//       {
-//         pattern: bot.utterances.yes,
-//         callback: () => {
-//           convo.say('I can help with that!');
-//           askFoodType(response, convo);
-//           convo.next();
-//         },
-//       },
-//       {
-//         pattern: bot.utterances.no,
-//         callback: () => {
-//           convo.say('Ok maybe later then.');
-//           convo.next();
-//         },
-//       },
-//       {
-//         default: true,
-//         callback: () => {
-//           convo.repeat();
-//           convo.next();
-//         },
-//       },
-//     ]);
-//   }
-//
-//   function askFoodType(response, convo) {
-//     convo.ask('What type of food are you in the mood for?', (food) => {
-//       convo.say('Okay');
-//       askLocation(food, convo);
-//       convo.next();
-//     });
-//   }
-//
-//   function askLocation(food, convo) {
-//     convo.ask('Where are you?', (location) => {
-//       convo.say(`So you want ${food.text} near ${location.text}`);
-//       searchYelp(food, location, convo);
-//       convo.next();
-//     });
-//   }
-//   // Adapted from https://github.com/olalonde/node-yelp
-//   // See http://www.yelp.com/developers/documentation/v2/search_api
-//   function searchYelp(food, place, convo) {
-//     yelp.search({ term: food, location: place, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
-//     .then((data) => {
-//       // if (data.businesses.length > 1) {
-//       //
-//       // }
-//       data.businesses.forEach(business => {
-//         console.log(business.name);
-//         convo.say(business.name);
-//         // convo.say(business.rating);
-//         convo.next();
-//       });
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//     });
-//   }
-//   bot.startConversation(message, askIfHungry);
-// });
+controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+  function askIfHungry(response, convo) {
+    convo.ask('Are you hungry?', [
+      {
+        pattern: bot.utterances.yes,
+        callback: () => {
+          convo.say('I can help with that!');
+          askFoodType(response, convo);
+          convo.next();
+        },
+      },
+      {
+        pattern: bot.utterances.no,
+        callback: () => {
+          convo.say('Ok maybe later then.');
+          convo.next();
+        },
+      },
+      {
+        default: true,
+        callback: () => {
+          convo.repeat();
+          convo.next();
+        },
+      },
+    ]);
+  }
+
+  function askFoodType(response, convo) {
+    convo.ask('What type of food are you in the mood for?', (food) => {
+      convo.say('Okay');
+      askLocation(food, convo);
+      convo.next();
+    });
+  }
+
+  function askLocation(food, convo) {
+    convo.ask('Where are you?', (location) => {
+      convo.say(`So you want ${food.text} near ${location.text}`);
+      searchYelp(food, location, convo);
+      convo.next();
+    });
+  }
+  // Adapted from https://github.com/olalonde/node-yelp
+  // See http://www.yelp.com/developers/documentation/v2/search_api
+  function searchYelp(food, place, convo) {
+    yelp.search({ term: `${food.text}`, location: `${place.text}`, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
+    .then((data) => {
+      // if (data.businesses.length > 1) {
+      //
+      // }
+      data.businesses.forEach(business => {
+        console.log(business.name);
+        convo.say(business.name);
+        // convo.say(business.rating);
+        convo.next();
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
+  bot.startConversation(message, askIfHungry);
+});
 
 
 // to wake up luisa-bot
@@ -118,21 +118,21 @@ controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 
 // ATTACHMENT: https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js
 
 
-// Conversation for Yelp API Conversation
-// Used https://github.com/howdyai/botkit/blob/master/readme.md#multi-message-replies-to-incoming-messages as a resource
-controller.hears(['hungry', 'food', 'lunch', 'dinner', 'breakfast'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
-  bot.startConversation(message, (err, convo) => {
-    convo.ask('Oh are you hungry? What kind of food would you like?', (response, convo) => {
-    // convo.say('Ok I\'ll search yelp for: ' + response.text);
-      const yelpResult = searchYelp(response.text, convo);
-      const yelpResponse = `Here's what I found: ${yelpResult}`;
-      convo.say('test');
-      convo.say(yelpResponse);
-    // convo.say('Here\'s what I found' + yelp.search({ term: response.text, location: 'Chicago' }));
-      // convo.next();
-    });
-  });
-});
+// // Conversation for Yelp API Conversation
+// // Used https://github.com/howdyai/botkit/blob/master/readme.md#multi-message-replies-to-incoming-messages as a resource
+// controller.hears(['hungry', 'food', 'lunch', 'dinner', 'breakfast'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
+//   bot.startConversation(message, (err, convo) => {
+//     convo.ask('Oh are you hungry? What kind of food would you like?', (response, convo) => {
+//     // convo.say('Ok I\'ll search yelp for: ' + response.text);
+//       const yelpResult = searchYelp(response.text, convo);
+//       const yelpResponse = `Here's what I found: ${yelpResult}`;
+//       convo.say('test');
+//       convo.say(yelpResponse);
+//     // convo.say('Here\'s what I found' + yelp.search({ term: response.text, location: 'Chicago' }));
+//       // convo.next();
+//     });
+//   });
+// });
 
 // Lists what the robot can do
 controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
