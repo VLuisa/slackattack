@@ -102,7 +102,7 @@ controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
 
 // to wake up luisa-bot
 controller.on('outgoing_webhook', (bot, message) => {
-  bot.replyPublic(message, 'yeah yeah i\'m up');
+  bot.replyPublic(message, 'yeah yeah i\'m up http://giphy.com/gifs/hello-adele-1GlKbuWu2TgDC');
 });
 
 controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
