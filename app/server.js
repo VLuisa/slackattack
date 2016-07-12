@@ -100,7 +100,7 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
 });
 
 // Using attachments
-controller.hears('testy', 'direct_message,direct_mention', (bot, message) => {
+controller.hears('testy', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   const attachment = {
     'username': 'My bot',
     'text': 'This is a pre-text',
