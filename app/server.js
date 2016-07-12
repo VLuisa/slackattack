@@ -33,6 +33,7 @@ controller.setupWebserver(process.env.PORT || 3001, (err, webserver) => {
   });
 });
 
+
 controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   bot.api.users.info({ user: message.user }, (err, res) => {
     if (res) {
@@ -53,8 +54,8 @@ controller.hears('open the (.*) doors', ['direct_message', 'message_received'], 
 
 // Adapted from https://github.com/olalonde/node-yelp
 // See http://www.yelp.com/developers/documentation/v2/search_api
-function searchYelp(food, convo) {
-  yelp.search({ term: food, location: 'Chicago', limit: 2, sort: 2 })
+function searchYelp(food, place, convo) {
+  yelp.search({ term: food, location: place, limit: 2, sort: 2 })
   .then((data) => {
     data.businesses.forEach(business => {
       console.log(business.name);
@@ -73,6 +74,9 @@ function searchYelp(food, convo) {
   });
 }
 
+// ATTACHMENT: https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js
+
+
 // Conversation for Yelp API Conversation
 // Used https://github.com/howdyai/botkit/blob/master/readme.md#multi-message-replies-to-incoming-messages as a resource
 controller.hears(['hungry', 'food', 'lunch', 'dinner', 'breakfast'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
@@ -89,18 +93,13 @@ controller.hears(['hungry', 'food', 'lunch', 'dinner', 'breakfast'], ['direct_me
   });
 });
 
+// Lists what the robot can do
+controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+  bot.reply(message, 'As of now if you tell me you\'re hungry or want food I can help you find options near you');
+});
 
-// See http://www.yelp.com/developers/documentation/v2/business
-// yelp.business('yelp-san-francisco')
-//   .then(console.log)
-//   .catch(console.error);
-//
-// yelp.phoneSearch({ phone: '+15555555555' })
-//   .then(console.log)
-//   .catch(console.error);
-
-  // A callback based API is also available:
-// yelp.business('yelp-san-francisco', function(err, data) {
-//   if (err) return console.log(error);
-//   console.log(data);
-// });
+// Default message; should go last so it doesn't always say this
+controller.hears('', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+  bot.reply(message, 'What are you even talking about');
+  bot.reply(message, 'Fine... If you need help type help');
+});
