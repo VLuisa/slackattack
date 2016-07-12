@@ -100,10 +100,11 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
 });
 
 // Using attachments
+// ATTACHMENT source: https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js
 controller.hears(['color', 'colorpicker', 'find color'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   const attachment = {
     'username': 'My bot',
-    'text': 'This is a pre-text',
+    'text': 'Looking for a quick link to a colorpicker? Here you go :)',
     'attachments': [
       {
         'fallback': 'To be useful, I need you to invite me in a channel.',
@@ -117,7 +118,6 @@ controller.hears(['color', 'colorpicker', 'find color'], ['direct_message', 'dir
 
   bot.reply(message, attachment);
 });
-
 
 // to wake up luisa-bot
 controller.on('outgoing_webhook', (bot, message) => {
@@ -134,29 +134,59 @@ controller.hears(['hello', 'hi', 'howdy'], ['direct_message', 'direct_mention', 
   });
 });
 
-
-// ATTACHMENT: https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js
-
-
-// // Conversation for Yelp API Conversation
-// // Used https://github.com/howdyai/botkit/blob/master/readme.md#multi-message-replies-to-incoming-messages as a resource
-// controller.hears(['hungry', 'food', 'lunch', 'dinner', 'breakfast'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
-//   bot.startConversation(message, (err, convo) => {
-//     convo.ask('Oh are you hungry? What kind of food would you like?', (response, convo) => {
-//     // convo.say('Ok I\'ll search yelp for: ' + response.text);
-//       const yelpResult = searchYelp(response.text, convo);
-//       const yelpResponse = `Here's what I found: ${yelpResult}`;
-//       convo.say('test');
-//       convo.say(yelpResponse);
-//     // convo.say('Here\'s what I found' + yelp.search({ term: response.text, location: 'Chicago' }));
-//       // convo.next();
+// // Ask about art and explore
+// controller.hears(['art', 'explore', 'discover'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+//   bot.startConversation(message,function(err,convo) {
+//     convo.say('Would you like to explore some art? I have some suggestions for great websites if you\'re interested')
+//     convo.ask('Want the suggestions? Say yes or no or ask me to show you my favorite art', function(response,convo) {
+//       convo.say('')
 //     });
-//   });
+//   })
 // });
+
+// Ask about art and explore
+// Adapted from: https://github.com/howdyai/botkit
+controller.hears(['art', 'explore', 'discover'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+  bot.startConversation(message, (err, convo) => {
+    convo.say('Would you like to explore some art? I have some suggestions for great websites if you\'re interested');
+    convo.ask('Shall we proceed Say YES, NO or favorite to hear about my favorite art piece', [
+      {
+        pattern: 'favorite',
+        callback: () => {
+          convo.say('This is my favorite work of art: https://upload.wikimedia.org/wikipedia/commons/b/b1/Claude_Monet_-_Twilight,_Venice.jpg');
+          convo.say('I\'m a big fan of Monet');
+          convo.next();
+        },
+      },
+      {
+        pattern: bot.utterances.yes,
+        callback: () => {
+          convo.say('This isn\'t classic art or master works but a great place for people to share what they\'re working on these days: https://www.behance.net/ or https://dribbble.com/');
+          convo.next();
+        },
+      },
+      {
+        pattern: bot.utterances.no,
+        callback: () => {
+          convo.say(':\'( Perhaps later...');
+          convo.next();
+        },
+      },
+      {
+        default: true,
+        callback: () => {
+          // just repeat the question
+          convo.repeat();
+          convo.next();
+        },
+      },
+    ]);
+  });
+});
 
 // Lists what the robot can do
 controller.hears('help', ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
-  bot.reply(message, 'As of now if you tell me you\'re hungry or want food I can help you find options near you');
+  bot.reply(message, 'As of now if you tell me you\'re hungry or want food I can help you find options near you, also if you need a color picker website I can point you to my favorite one, just mention the word "color", and if you want to explore some cool web developers or illustrators check out Behance or Dribbble and prompt me with "explore" or "art" and I\'ll send you my favorite painting');
 });
 
 // Default message; should go last so it doesn't always say this
