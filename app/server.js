@@ -76,7 +76,7 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
       // yelp.search({ term: 'pizza', location: 'Chicago', limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
 
       .then((data) => {
-        if (data.businesses.length > 1) {
+        if (data.businesses.length != 0) {
           data.businesses.forEach(business => {
             convo.say(business.name);
             // convo.next();
