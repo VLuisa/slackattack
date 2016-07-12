@@ -25,7 +25,7 @@ const slackbot = controller.spawn({
   if (err) { throw new Error(err); }
 });
 
-controller.hears(['hungry', 'food'], 'message_received', (bot, message) => {
+controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   function askIfHungry(response, convo) {
     convo.ask('Are you hungry?', [
       {
