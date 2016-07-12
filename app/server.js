@@ -79,15 +79,15 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
   // Adapted from https://github.com/olalonde/node-yelp
   // See http://www.yelp.com/developers/documentation/v2/search_api
   function searchYelp(food, location, convo) {
-    yelp.search({ term: `${food.text}`, location: `${location.text}`, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
+    // yelp.search({ term: `${food.text}`, location: `${location.text}`, limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
+    yelp.search({ term: 'pizza', location: 'Chicago', limit: 3, sort: 2 }) // sort by highest rating, limit 3 searches
+
     .then((data) => {
       if (data.businesses.length > 1) {
         data.businesses.forEach(business => {
-          console.log(business.name);
           convo.say(business.name);
-          // convo.say(business.rating);
         });
-        convo.next();
+        // convo.next();
       } else {
         convo.say('I couldn\'t find any results sorry');
       }
@@ -111,7 +111,7 @@ controller.hears(['color', 'colorpicker', 'find color'], ['direct_message', 'dir
       {
         'fallback': 'To be useful, I need you to invite me in a channel.',
         'title': 'How can I help you?',
-        'text': 'This is my favorite color, and my favorite color-picker website: http://htmlcolorcodes.com/color-picker/',
+        'text': 'This is my favorite color #ff7575, and my favorite color-picker website: http://htmlcolorcodes.com/color-picker/',
         'color': '#ff7575',
       },
     ],
