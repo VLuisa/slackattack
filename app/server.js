@@ -54,9 +54,9 @@ controller.hears(['hungry', 'food'], ['direct_message', 'direct_mention', 'menti
   }
 
   function askFoodType(response, convo) {
-    convo.ask('What type of food are you in the mood for?', (food) => {
+    convo.ask('What type of food are you in the mood for?', (response) => {
       convo.say('Okay');
-      askLocation(food, convo);
+      askLocation(response, convo);
       convo.next();
     });
   }
