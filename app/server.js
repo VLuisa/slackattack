@@ -60,28 +60,6 @@ function searchYelp(food, location, convo) {
     console.error(err);
   });
 }
-
-function foodSearch(food, convo) {
-  convo.ask('Where are you?', (location) => {
-    // convo.say('Ok I\'ll search yelp for: ' + response.text);
-    const yelpResult = searchYelp(food.text, location.text, convo);
-    const yelpResponse = `Here's what I found: ${yelpResult}`;
-    convo.say('test');
-    convo.say(yelpResponse);
-    // convo.say('Here\'s what I found' + yelp.search({ term: response.text, location: 'Chicago' }));
-      // convo.next();
-  });
-}
-
-controller.hears(['poop'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
-  bot.startConversation(message, (err, convo) => {
-    convo.ask('Oh are you hungry? What kind of food would you like?', (response) => {
-      const foodResult = foodSearch(response, convo);
-      convo.say(foodResult);
-    });
-  });
-});
-
 // Using attachments
 // ATTACHMENT source: https://github.com/howdyai/botkit/blob/master/examples/demo_bot.js
 controller.hears(['color', 'colorpicker', 'find color'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
@@ -102,7 +80,7 @@ controller.hears(['color', 'colorpicker', 'find color'], ['direct_message', 'dir
   bot.reply(message, attachment);
 });
 
-controller.hears(['pizzatime'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
+controller.hears(['food', 'hungry', 'starving'], ['direct_message', 'direct_mention', 'mention', 'message_received'], (bot, message) => {
   function askFlavor(response, convo) {
     convo.ask('What type of food do you want?', (food) => {
       convo.say('Awesome.');
